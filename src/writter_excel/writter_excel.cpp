@@ -20,12 +20,39 @@ int main()
 
     json json_input;
     std::ifstream fin("data.json");
+    if (fin.is_open() == false)
+    {
+        std::cout << "File input json not open!\n";
+        return 1;
+    }
     fin >> json_input;
     fin.close();
 
     Book book;
-    book.from_json(json_input);
-    save_to_excel(book);
+    try
+    {
+        book.from_json(json_input);
+    }
+    catch (const std::exception &e)
+    {
+        std::cout << e.what() << '\n';
+        return 2;
+    }
+    catch (...)
+    {
+        std::cout << "An unknown error has occurred\n";
+        return 3;
+    }
+    
+    try
+    {
+        save_to_excel(book);
+    }
+    catch(...)
+    {
+        std::cout << "Couldn't save Excel file\n";
+        return 4;
+    }
 
     return 0;
 }

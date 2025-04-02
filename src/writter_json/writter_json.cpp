@@ -59,6 +59,11 @@ int main()
     const json json_book = book.to_json();
 
     std::ofstream file_output("data.json");
+    if (file_output.is_open() == false)
+    {
+        std::cout << "File output json not open!\n";
+        return 1;
+    }
     file_output << std::setw(4) << json_book << "\n";
     file_output.close();
 
